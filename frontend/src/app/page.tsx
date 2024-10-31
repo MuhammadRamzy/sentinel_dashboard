@@ -5,9 +5,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card, CardContent } from "@/components/ui/card"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { AlertCircle, CheckCircle2 } from "lucide-react"
-import ScraperForm from "./components/ScraperForm"
-import SentimentForm from "./components/SentimentForm"
-import DisplayResults from "./components/DisplayResults"
+import ScraperForm from "@/app/components/ScraperForm"
+import SentimentForm from "@/app/components/SentimentForm"
+import DisplayResults from "@/app/components/DisplayResults"
 
 interface ScrapedData {
   source: string
