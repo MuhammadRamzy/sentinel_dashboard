@@ -26,14 +26,19 @@ const ScraperForm: React.FC<ScraperFormProps> = ({ onScrape, loading }) => {
       <Textarea
         value={sources}
         onChange={(e) => setSources(e.target.value)}
-        placeholder="https://example.com&#10;https://another-example.com"
+        placeholder={`https://example.com
+https://another-example.com`}
         className="mb-4"
       />
       <Button onClick={handleScrape} disabled={loading}>
-        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Scrape URLs'}
+        {loading ? (
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          "Scrape URLs"
+        )}
       </Button>
     </>
-  )
+  );
 }
 
 export default ScraperForm
