@@ -57,3 +57,5 @@ backend/local_settings.py
 # Test results
 frontend/test-results/
 backend/test-results/
+
+.gitignore
