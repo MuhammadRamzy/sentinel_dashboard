@@ -1,32 +1,97 @@
+import React from 'react'
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+
+interface ScrapedData {
+  source: string
+  content: string
+  error?: string
+}
+
+interface SentimentData {
+  polarity: number
+  subjectivity: number
+  overall_sentiment: string
+}
+
 interface DisplayResultsProps {
-    scrapedData: Array<{ source: string; content: string; error?: string }>;
-    sentiment: { polarity: number; subjectivity: number; overall_sentiment: string } | null;
+  scrapedData: ScrapedData[]
+  sentiment: SentimentData | null
+}
+
+const DisplayResults: React.FC<DisplayResultsProps> = ({ scrapedData, sentiment }) => {
+  const getSentimentColor = (sentiment: string) => {
+    switch (sentiment) {
+      case 'Positive':
+        return 'text-green-500'
+      case 'Negative':
+        return 'text-red-500'
+      default:
+        return 'text-yellow-500'
+    }
   }
-  
-  const DisplayResults: React.FC<DisplayResultsProps> = ({ scrapedData, sentiment }) => (
-    <div>
+
+  return (
+    <>
       {scrapedData.length > 0 && (
-        <div className="mb-6">
-          <h2 className="text-xl font-bold mb-2">Scraped Data</h2>
-          {scrapedData.map((data, index) => (
-            <div key={index} className="border p-2 rounded mb-2">
-              <h3 className="font-bold">{data.source}</h3>
-              <p>{data.error ? `Error: ${data.error}` : data.content}</p>
-            </div>
-          ))}
-        </div>
+        <Card className="mb-8">
+          <CardHeader>
+            <CardTitle>Scraped Data</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Accordion type="single" collapsible className="w-full">
+              {scrapedData.map((data, index) => (
+                <AccordionItem value={`item-${index}`} key={index}>
+                  <AccordionTrigger>{data.source}</AccordionTrigger>
+                  <AccordionContent>
+                    {data.error ? (
+                      <p className="text-red-500">Error: {data.error}</p>
+                    ) : (
+                      <p>{data.content}</p>
+                    )}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </CardContent>
+        </Card>
       )}
-      
+
       {sentiment && (
-        <div className="mb-6">
-          <h2 className="text-xl font-bold mb-2">Sentiment Analysis</h2>
-          <p>Polarity: {sentiment.polarity}</p>
-          <p>Subjectivity: {sentiment.subjectivity}</p>
-          <p>Overall Sentiment: {sentiment.overall_sentiment}</p>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sentiment Analysis Results</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div>
+                <p className="font-semibold mb-2">Polarity</p>
+                <Progress value={(sentiment.polarity + 1) * 50} className="w-full" />
+                <p className="text-sm text-muted-foreground mt-1">{sentiment.polarity.toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="font-semibold mb-2">Subjectivity</p>
+                <Progress value={sentiment.subjectivity * 100} className="w-full" />
+                <p className="text-sm text-muted-foreground mt-1">{sentiment.subjectivity.toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="font-semibold">Overall Sentiment</p>
+                <p className={`text-2xl font-bold ${getSentimentColor(sentiment.overall_sentiment)}`}>
+                  {sentiment.overall_sentiment}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       )}
-    </div>
-  );
-  
-  export default DisplayResults;
-  
+    </>
+  )
+}
+
+export default DisplayResults

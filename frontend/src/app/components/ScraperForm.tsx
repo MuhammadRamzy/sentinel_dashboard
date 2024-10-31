@@ -1,34 +1,39 @@
-import { useState } from "react";
+import React, { useState } from 'react'
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface ScraperFormProps {
-  onScrape: (sources: string[]) => void;
+  onScrape: (sources: string[]) => void
+  loading: boolean
 }
 
-const ScraperForm: React.FC<ScraperFormProps> = ({ onScrape }) => {
-  const [sources, setSources] = useState<string>("");
+const ScraperForm: React.FC<ScraperFormProps> = ({ onScrape, loading }) => {
+  const [sources, setSources] = useState<string>("")
 
   const handleScrape = () => {
-    const urls = sources.split("\n").map(url => url.trim()).filter(url => url);
-    onScrape(urls);
-  };
+    const urls = sources.split("\n").map(url => url.trim()).filter(url => url)
+    onScrape(urls)
+  }
 
   return (
-    <div className="mb-6">
-      <h2 className="text-xl font-bold mb-2">URL Scraper</h2>
-      <textarea
+    <>
+      <CardHeader>
+        <CardTitle>URL Scraper</CardTitle>
+        <CardDescription>Enter URLs to scrape, one per line.</CardDescription>
+      </CardHeader>
+      <Textarea
         value={sources}
         onChange={(e) => setSources(e.target.value)}
-        placeholder="Enter URLs, one per line..."
-        className="w-full p-2 border border-gray-300 rounded mb-2"
+        placeholder="https://example.com&#10;https://another-example.com"
+        className="mb-4"
       />
-      <button
-        onClick={handleScrape}
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-      >
-        Scrape URLs
-      </button>
-    </div>
-  );
-};
+      <Button onClick={handleScrape} disabled={loading}>
+        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Scrape URLs'}
+      </Button>
+    </>
+  )
+}
 
-export default ScraperForm;
+export default ScraperForm

@@ -1,29 +1,34 @@
-import { useState } from "react";
+import React, { useState } from 'react'
+import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button"
+import { Loader2 } from "lucide-react"
+import { CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 interface SentimentFormProps {
-  onAnalyze: (text: string) => void;
+  onAnalyze: (text: string) => void
+  loading: boolean
 }
 
-const SentimentForm: React.FC<SentimentFormProps> = ({ onAnalyze }) => {
-  const [text, setText] = useState<string>("");
+const SentimentForm: React.FC<SentimentFormProps> = ({ onAnalyze, loading }) => {
+  const [text, setText] = useState<string>("")
 
   return (
-    <div className="mb-6">
-      <h2 className="text-xl font-bold mb-2">Sentiment Analysis</h2>
-      <textarea
+    <>
+      <CardHeader>
+        <CardTitle>Sentiment Analysis</CardTitle>
+        <CardDescription>Enter text for sentiment analysis.</CardDescription>
+      </CardHeader>
+      <Textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Enter text for sentiment analysis..."
-        className="w-full p-2 border border-gray-300 rounded mb-2"
+        className="mb-4"
       />
-      <button
-        onClick={() => onAnalyze(text)}
-        className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
-      >
-        Analyze Sentiment
-      </button>
-    </div>
-  );
-};
+      <Button onClick={() => onAnalyze(text)} disabled={loading}>
+        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : 'Analyze Sentiment'}
+      </Button>
+    </>
+  )
+}
 
-export default SentimentForm;
+export default SentimentForm
