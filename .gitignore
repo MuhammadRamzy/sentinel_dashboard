@@ -1,0 +1,59 @@
+# General ignores
+.DS_Store
+*.pem
+*.log
+
+# Environment files (for both frontend and backend)
+.env*
+.env.*.local
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Frontend ignores
+frontend/node_modules
+frontend/.pnp
+frontend.pnp.*
+frontend/.yarn/*
+!frontend/.yarn/patches
+!frontend/.yarn/plugins
+!frontend/.yarn/releases
+!frontend/.yarn/versions
+
+frontend/coverage
+frontend/.next
+frontend/out
+frontend/build
+
+# TypeScript
+frontend/*.tsbuildinfo
+frontend/next-env.d.ts
+
+# Backend ignores
+backend/venv/
+backend/__pycache__/
+backend/*.py[cod]
+backend/*.pyo
+backend/*.pyd
+backend/.Python
+backend/*.egg
+backend/*.egg-info/
+backend/*.eggs/
+backend/.migrations/
+
+# Django specific (if using Django)
+backend/*.log
+backend/*.pot
+backend/*.pyc
+backend/*.pyo
+backend/*.db
+backend/*.sqlite3
+backend/media/
+backend/staticfiles/
+backend/local_settings.py
+
+# Test results
+frontend/test-results/
+backend/test-results/
